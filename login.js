@@ -88,6 +88,28 @@ app.get("/webboard", (req, res) => {
         console.log("You must login first!");
 });
 
+app.get("/add", (req, res) => {
+    res.render("add");
+});
+
+addEventListener.post("/add", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+    const post = {
+        username: username,
+        password: password,
+        email: email
+    };
+    if (req.session.loggedin)
+    connection.query("INSERT INTO accounts SET ?", post, (err) => {
+        console.log("Data Inserted")
+        return res.redirect("/webboard");
+    });
+    else res.send("You must login First!");
+    console.log("You must login First!")
+});
+
 //running port 9000
 app.listen(9000);
 console.log("running on port 9000...")
